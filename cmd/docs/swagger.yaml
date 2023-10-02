@@ -1,0 +1,113 @@
+basePath: /api/v1
+definitions:
+  AppError:
+    properties:
+      error_key:
+        type: string
+      log:
+        type: string
+      message:
+        type: string
+      status_code:
+        example: 400
+        type: integer
+    type: object
+  CreateUserRequest:
+    properties:
+      address:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: A Tag service API in Go using Echo framework
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Tag Service API
+  version: "1.0"
+paths:
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Save user data in Db.
+      operationId: CreateUser
+      parameters:
+      - description: Create user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/AppError'
+      summary: Create user
+      tags:
+      - user
+  /get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get user by id
+      operationId: Get User By id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/AppError'
+      summary: GetUserById
+      tags:
+      - user
+securityDefinitions:
+  Bearer:
+    description: 'Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
